@@ -28,17 +28,17 @@
 			<Parameter Name="IN1" Value="SoftKeyMask_PAGE_1"/>
 			<Parameter Name="IN2" Value="SoftKeyMask_PAGE_2"/>
 		</FB>
-		<FB Name="E_SR_PAGE_1" Type="iec61499::events::E_SR" x="3600" y="500">
+		<FB Name="E_SR_PAGE_1" Type="adapter::events::unidirectional::AX_SR" x="3600" y="500">
 		</FB>
-		<FB Name="E_SR_PAGE_2" Type="iec61499::events::E_SR" x="3500" y="2500">
+		<FB Name="E_SR_PAGE_2" Type="adapter::events::unidirectional::AX_SR" x="3500" y="2500">
 		</FB>
-		<SubApp Name="GreenWhiteBackground_PAGE_2" Type="MyLib::sys::GreenWhiteBackground3C" x="5100" y="2500">
+		<SubApp Name="GreenWhiteBackground_PAGE_2" Type="MyLib::sys::GreenWhiteBackground3_AXC" x="5100" y="2500">
 			<Attribute Name="width" Type="LREAL" Value="1333.3333333333335"/>
 			<Attribute Name="height" Type="LREAL" Value="666.6666666666667"/>
 			<Parameter Name="u16ObjId" Value="PAGE_2_BTN"/>
 			<Parameter Name="u16ObjIdA" Value="PAGE_2_AUX"/>
 		</SubApp>
-		<SubApp Name="GreenWhiteBackground_PAGE_1" Type="MyLib::sys::GreenWhiteBackground3C" x="5100" y="500">
+		<SubApp Name="GreenWhiteBackground_PAGE_1" Type="MyLib::sys::GreenWhiteBackground3_AXC" x="5100" y="500">
 			<Attribute Name="width" Type="LREAL" Value="1333.3333333333335"/>
 			<Attribute Name="height" Type="LREAL" Value="666.6666666666667"/>
 			<Parameter Name="u16ObjId" Value="PAGE_1_BTN"/>
@@ -61,8 +61,6 @@
 			<Connection Source="VT_active.EO" Destination="E_SR_PAGE_2.R" dx1="1806.67">
 				<Attribute Name="Visible" Value="false"/>
 			</Connection>
-			<Connection Source="E_SR_PAGE_2.EO" Destination="GreenWhiteBackground_PAGE_2.INIT" dx1="560"/>
-			<Connection Source="E_SR_PAGE_1.EO" Destination="GreenWhiteBackground_PAGE_1.INIT" dx1="513.33"/>
 			<Connection Source="PAGE_1.IND" Destination="F_SEL_I.REQ1" dx1="1033.33"/>
 			<Connection Source="PAGE_1.IND" Destination="E_SR_PAGE_1.S" dx1="1526.67">
 				<Attribute Name="Visible" Value="false"/>
@@ -80,8 +78,10 @@
 		</EventConnections>
 		<DataConnections>
 			<Connection Source="F_SEL_I.OUT" Destination="Q_SoftKeyMask.u16SoftKeyMaskId" dx1="180"/>
-			<Connection Source="E_SR_PAGE_2.Q" Destination="GreenWhiteBackground_PAGE_2.DI" dx1="566.67"/>
-			<Connection Source="E_SR_PAGE_1.Q" Destination="GreenWhiteBackground_PAGE_1.DI" dx1="513.33"/>
 		</DataConnections>
+		<AdapterConnections>
+			<Connection Source="E_SR_PAGE_1.Q" Destination="GreenWhiteBackground_PAGE_1.DI1" dx1="513.33"/>
+			<Connection Source="E_SR_PAGE_2.Q" Destination="GreenWhiteBackground_PAGE_2.DI1" dx1="566.67"/>
+		</AdapterConnections>
 	</SubAppNetwork>
 </SubAppType>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<SubAppType Name="Vorsteuerventil" Comment="Subapplication Type" >
+<SubAppType Name="Vorsteuerventil" Comment="Subapplication Type">
 	<Identification Standard="61499-2">
 	</Identification>
 	<VersionInfo Version="1.0" Author="Franz" Date="2023-01-29">
@@ -8,51 +8,35 @@
 		<Import declaration="DataPanel::io::MI::DQ::DataPanel_MI_DO::Invalid"/>
 	</CompilerInfo>
 	<SubAppInterfaceList>
-		<SubAppEventInputs>
-			<SubAppEvent Name="REQ1" Type="Event">
-			</SubAppEvent>
-			<SubAppEvent Name="REQ2" Type="Event">
-			</SubAppEvent>
-			<SubAppEvent Name="REQ3" Type="Event">
-			</SubAppEvent>
-			<SubAppEvent Name="REQ4" Type="Event">
-			</SubAppEvent>
-			<SubAppEvent Name="REQ5" Type="Event">
-			</SubAppEvent>
-		</SubAppEventInputs>
 		<InputVars>
-			<VarDeclaration Name="IN1" Type="BOOL"/>
-			<VarDeclaration Name="IN2" Type="BOOL"/>
-			<VarDeclaration Name="IN3" Type="BOOL"/>
-			<VarDeclaration Name="IN4" Type="BOOL"/>
-			<VarDeclaration Name="IN5" Type="BOOL"/>
 			<VarDeclaration Name="Output" Type="DataPanel::io::MI::DQ::DataPanel_MI_DO_S" InitialValue="Invalid"/>
 		</InputVars>
+		<Sockets>
+			<AdapterDeclaration Name="IN1" Type="adapter::types::unidirectional::AX"/>
+			<AdapterDeclaration Name="IN2" Type="adapter::types::unidirectional::AX"/>
+			<AdapterDeclaration Name="IN3" Type="adapter::types::unidirectional::AX"/>
+			<AdapterDeclaration Name="IN4" Type="adapter::types::unidirectional::AX"/>
+			<AdapterDeclaration Name="IN5" Type="adapter::types::unidirectional::AX"/>
+		</Sockets>
 	</SubAppInterfaceList>
 	<SubAppNetwork>
-		<FB Name="OR_5" Type="OR_5" x="1100" y="253.33">
+		<FB Name="OR_5" Type="adapter::booleanOperators::AX_OR_5" x="1100" y="253.33">
 		</FB>
-		<FB Name="QX" Type="DataPanel::io::MI::DQ::DataPanel_MI_QX" x="2560" y="0">
+		<FB Name="QX" Type="DataPanel::io::MI::DQ::DataPanel_MI_QXA" x="2560" y="0">
 			<Parameter Name="QI" Value="TRUE"/>
 		</FB>
-		<EventConnections>
-			<Connection Source="REQ1" Destination="OR_5.REQ" dx1="546.67"/>
-			<Connection Source="REQ2" Destination="OR_5.REQ" dx1="553.33"/>
-			<Connection Source="REQ3" Destination="OR_5.REQ" dx1="553.33"/>
-			<Connection Source="REQ4" Destination="OR_5.REQ" dx1="553.33"/>
-			<Connection Source="REQ5" Destination="OR_5.REQ" dx1="553.33"/>
-			<Connection Source="OR_5.CNF" Destination="QX.REQ" dx1="320"/>
-		</EventConnections>
 		<DataConnections>
 			<Connection Source="Output" Destination="QX.Output" dx1="300">
 				<Attribute Name="Visible" Value="false"/>
 			</Connection>
-			<Connection Source="IN1" Destination="OR_5.IN1" dx1="846.67"/>
-			<Connection Source="IN2" Destination="OR_5.IN2" dx1="666.67"/>
-			<Connection Source="IN3" Destination="OR_5.IN3" dx1="566.67"/>
-			<Connection Source="IN4" Destination="OR_5.IN4" dx1="440"/>
-			<Connection Source="IN5" Destination="OR_5.IN5" dx1="253.33"/>
-			<Connection Source="OR_5.OUT" Destination="QX.OUT" dx1="320"/>
 		</DataConnections>
+		<AdapterConnections>
+			<Connection Source="IN1" Destination="OR_5.IN1" dx1="2920"/>
+			<Connection Source="IN2" Destination="OR_5.IN2" dx1="2886.67"/>
+			<Connection Source="IN3" Destination="OR_5.IN3" dx1="2853.33"/>
+			<Connection Source="IN4" Destination="OR_5.IN4" dx1="2820"/>
+			<Connection Source="IN5" Destination="OR_5.IN5" dx1="2786.67"/>
+			<Connection Source="OR_5.OUT" Destination="QX.OUT" dx1="406.67"/>
+		</AdapterConnections>
 	</SubAppNetwork>
 </SubAppType>

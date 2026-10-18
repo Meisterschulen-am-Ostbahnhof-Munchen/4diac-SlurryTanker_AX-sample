@@ -8,21 +8,7 @@
 		<Import declaration="DataPanel::io::MI::DQ::DataPanel_MI_DO::Invalid"/>
 	</CompilerInfo>
 	<SubAppInterfaceList>
-		<SubAppEventInputs>
-			<SubAppEvent Name="EI_heben" Type="Event">
-			</SubAppEvent>
-			<SubAppEvent Name="EI_senken" Type="Event">
-			</SubAppEvent>
-		</SubAppEventInputs>
-		<SubAppEventOutputs>
-			<SubAppEvent Name="CNF_heben" Type="Event">
-			</SubAppEvent>
-			<SubAppEvent Name="CNF_senken" Type="Event">
-			</SubAppEvent>
-		</SubAppEventOutputs>
 		<InputVars>
-			<VarDeclaration Name="IN_heben" Type="BOOL"/>
-			<VarDeclaration Name="IN_senken" Type="BOOL"/>
 			<VarDeclaration Name="u16ObjId_heben" Type="UINT"/>
 			<VarDeclaration Name="u16ObjId_senken" Type="UINT"/>
 			<VarDeclaration Name="u16ObjIdA_heben" Type="UINT"/>
@@ -30,48 +16,42 @@
 			<VarDeclaration Name="OutputA" Type="DataPanel::io::MI::DQ::DataPanel_MI_DO_S" InitialValue="Invalid"/>
 			<VarDeclaration Name="OutputB" Type="DataPanel::io::MI::DQ::DataPanel_MI_DO_S" InitialValue="Invalid"/>
 		</InputVars>
-		<OutputVars>
-			<VarDeclaration Name="OUT_heben" Type="BOOL"/>
-			<VarDeclaration Name="OUT_senken" Type="BOOL"/>
-		</OutputVars>
+		<Plugs>
+			<AdapterDeclaration Name="OUT_heben" Type="adapter::types::unidirectional::AX"/>
+			<AdapterDeclaration Name="OUT_senken" Type="adapter::types::unidirectional::AX"/>
+		</Plugs>
+		<Sockets>
+			<AdapterDeclaration Name="IN_heben" Type="adapter::types::unidirectional::AX"/>
+			<AdapterDeclaration Name="IN_senken" Type="adapter::types::unidirectional::AX"/>
+		</Sockets>
 	</SubAppInterfaceList>
 	<SubAppNetwork>
-		<FB Name="OR_2_heben" Type="iec61131::bitwiseOperators::OR_3" x="3166.67" y="766.67">
+		<FB Name="OR_2_heben" Type="adapter::booleanOperators::AX_OR_3" x="3166.67" y="766.67">
 		</FB>
-		<FB Name="OR_2_senken" Type="iec61131::bitwiseOperators::OR_3" x="3066.67" y="2166.67">
+		<FB Name="AX_SPLIT_3_heben" Type="adapter::events::unidirectional::AX_SPLIT_3" x="4100" y="800">
 		</FB>
-		<SubApp Name="GreenWhiteBackground_heben" Type="MyLib::sys::GreenWhiteBackground3C" x="5933.33" y="3533.33">
+		<FB Name="OR_2_senken" Type="adapter::booleanOperators::AX_OR_3" x="3066.67" y="2166.67">
+		</FB>
+		<FB Name="AX_SPLIT_3_senken" Type="adapter::events::unidirectional::AX_SPLIT_3" x="4500" y="2166.67">
+		</FB>
+		<SubApp Name="GreenWhiteBackground_heben" Type="MyLib::sys::GreenWhiteBackground3_AXC" x="6700" y="300">
 		</SubApp>
-		<SubApp Name="GreenWhiteBackground_senken" Type="MyLib::sys::GreenWhiteBackground3C" x="5933.33" y="4466.67">
+		<SubApp Name="GreenWhiteBackground_senken" Type="MyLib::sys::GreenWhiteBackground3_AXC" x="6600" y="2100">
 		</SubApp>
-		<SubApp Name="Sitzventile" Type="Sitzventile" x="6793.33" y="2586.67">
+		<SubApp Name="Sitzventile" Type="Sitzventile" x="7200" y="1200">
 		</SubApp>
-		<FB Name="SoftKey_heben" Type="isobus::UT::io::Softkey::Softkey_IX" x="600" y="900">
+		<FB Name="SoftKey_heben" Type="isobus::UT::io::Softkey::Softkey_IXA" x="800" y="0">
 			<Parameter Name="QI" Value="TRUE"/>
 		</FB>
-		<FB Name="AuxInput_heben" Type="isobus::UT::io::Auxiliary::IN::Aux_IX" x="600" y="1800">
+		<FB Name="AuxInput_heben" Type="isobus::UT::io::Auxiliary::IN::Aux_IXA" x="800" y="1300">
 			<Parameter Name="QI" Value="TRUE"/>
 		</FB>
-		<FB Name="SoftKey_senken" Type="isobus::UT::io::Softkey::Softkey_IX" x="-200" y="2800">
+		<FB Name="SoftKey_senken" Type="isobus::UT::io::Softkey::Softkey_IXA" x="-1000" y="1500">
 			<Parameter Name="QI" Value="TRUE"/>
 		</FB>
-		<FB Name="AuxInput_senken" Type="isobus::UT::io::Auxiliary::IN::Aux_IX" x="-200" y="3800">
+		<FB Name="AuxInput_senken" Type="isobus::UT::io::Auxiliary::IN::Aux_IXA" x="-1000" y="2600">
 			<Parameter Name="QI" Value="TRUE"/>
 		</FB>
-		<EventConnections>
-			<Connection Source="EI_heben" Destination="OR_2_heben.REQ" dx1="3566.67"/>
-			<Connection Source="OR_2_heben.CNF" Destination="CNF_heben" dx1="2980"/>
-			<Connection Source="EI_senken" Destination="OR_2_senken.REQ" dx1="3406.67"/>
-			<Connection Source="OR_2_senken.CNF" Destination="CNF_senken" dx1="7313.33"/>
-			<Connection Source="OR_2_heben.CNF" Destination="GreenWhiteBackground_heben.EO" dx1="680"/>
-			<Connection Source="OR_2_senken.CNF" Destination="GreenWhiteBackground_senken.EO" dx1="1186.67"/>
-			<Connection Source="OR_2_heben.CNF" Destination="Sitzventile.CNF_heben" dx1="1553.33"/>
-			<Connection Source="OR_2_senken.CNF" Destination="Sitzventile.CNF_senken" dx1="1580"/>
-			<Connection Source="SoftKey_heben.IND" Destination="OR_2_heben.REQ" dx1="966.67"/>
-			<Connection Source="AuxInput_heben.IND" Destination="OR_2_heben.REQ" dx1="1053.33"/>
-			<Connection Source="SoftKey_senken.IND" Destination="OR_2_senken.REQ" dx1="1366.67"/>
-			<Connection Source="AuxInput_senken.IND" Destination="OR_2_senken.REQ" dx1="1106.67"/>
-		</EventConnections>
 		<DataConnections>
 			<Connection Source="OutputB" Destination="Sitzventile.OutputB" dx1="300">
 				<Attribute Name="Visible" Value="false"/>
@@ -91,12 +71,6 @@
 			<Connection Source="u16ObjId_senken" Destination="SoftKey_senken.u16ObjId" dx1="300">
 				<Attribute Name="Visible" Value="false"/>
 			</Connection>
-			<Connection Source="IN_heben" Destination="OR_2_heben.IN2" dx1="3420"/>
-			<Connection Source="OR_2_heben.OUT" Destination="OUT_heben" dx1="3073.33"/>
-			<Connection Source="IN_senken" Destination="OR_2_senken.IN2" dx1="173.33"/>
-			<Connection Source="OR_2_senken.OUT" Destination="OUT_senken" dx1="7533.33"/>
-			<Connection Source="OR_2_heben.OUT" Destination="GreenWhiteBackground_heben.DI" dx1="680"/>
-			<Connection Source="OR_2_senken.OUT" Destination="GreenWhiteBackground_senken.DI" dx1="1186.67"/>
 			<Connection Source="u16ObjId_heben" Destination="GreenWhiteBackground_heben.u16ObjId" dx1="2733.33">
 				<Attribute Name="Visible" Value="false"/>
 			</Connection>
@@ -109,12 +83,22 @@
 			<Connection Source="u16ObjIdA_senken" Destination="GreenWhiteBackground_senken.u16ObjIdA" dx1="2733.33">
 				<Attribute Name="Visible" Value="false"/>
 			</Connection>
-			<Connection Source="OR_2_heben.OUT" Destination="Sitzventile.IN_heben" dx1="1533.33"/>
-			<Connection Source="OR_2_senken.OUT" Destination="Sitzventile.IN_senken" dx1="1580"/>
-			<Connection Source="SoftKey_heben.IN" Destination="OR_2_heben.IN1" dx1="1620"/>
-			<Connection Source="AuxInput_heben.IN" Destination="OR_2_heben.IN3" dx1="1780"/>
-			<Connection Source="SoftKey_senken.IN" Destination="OR_2_senken.IN1" dx1="2233.33"/>
-			<Connection Source="AuxInput_senken.IN" Destination="OR_2_senken.IN3" dx1="2386.67"/>
 		</DataConnections>
+		<AdapterConnections>
+			<Connection Source="SoftKey_heben.IN" Destination="OR_2_heben.IN1" dx1="300"/>
+			<Connection Source="IN_heben" Destination="OR_2_heben.IN2" dx1="1493.33"/>
+			<Connection Source="AuxInput_heben.IN" Destination="OR_2_heben.IN3" dx1="300"/>
+			<Connection Source="OR_2_heben.OUT" Destination="AX_SPLIT_3_heben.IN" dx1="100"/>
+			<Connection Source="AX_SPLIT_3_heben.OUT1" Destination="OUT_heben" dx1="300"/>
+			<Connection Source="AX_SPLIT_3_heben.OUT2" Destination="GreenWhiteBackground_heben.DI1" dx1="453.33"/>
+			<Connection Source="AX_SPLIT_3_heben.OUT3" Destination="Sitzventile.IN_heben" dx1="1173.33"/>
+			<Connection Source="SoftKey_senken.IN" Destination="OR_2_senken.IN1" dx1="300"/>
+			<Connection Source="IN_senken" Destination="OR_2_senken.IN2" dx1="300"/>
+			<Connection Source="AuxInput_senken.IN" Destination="OR_2_senken.IN3" dx1="300"/>
+			<Connection Source="OR_2_senken.OUT" Destination="AX_SPLIT_3_senken.IN" dx1="100"/>
+			<Connection Source="AX_SPLIT_3_senken.OUT1" Destination="OUT_senken" dx1="300"/>
+			<Connection Source="AX_SPLIT_3_senken.OUT2" Destination="Sitzventile.IN_senken" dx1="493.33"/>
+			<Connection Source="AX_SPLIT_3_senken.OUT3" Destination="GreenWhiteBackground_senken.DI1" dx1="426.67"/>
+		</AdapterConnections>
 	</SubAppNetwork>
 </SubAppType>

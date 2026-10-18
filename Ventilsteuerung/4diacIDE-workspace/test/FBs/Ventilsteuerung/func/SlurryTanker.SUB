@@ -127,12 +127,12 @@
 			<Parameter Name="u16ObjIdA" Value="AuxInput_Heckschieber"/>
 			<Attribute Name="GroupName" Type="STRING" Value="Vorgewendeautomatik"/>
 		</SubApp>
-		<FB Name="Knickdeichsel_heben" Type="BlinkMarine::io::DI::PKP_2200_LI_IX" x="760" y="3400">
+		<FB Name="Knickdeichsel_heben" Type="BlinkMarine::io::DI::PKP_2200_LI_IXA" x="760" y="3400">
 			<Parameter Name="QI" Value="TRUE"/>
 			<Parameter Name="Input" Value="DigitalInput_Key_1"/>
 			<Attribute Name="GroupName" Type="STRING" Value="funktionen"/>
 		</FB>
-		<FB Name="Knickdeichsel_senken" Type="BlinkMarine::io::DI::PKP_2200_LI_IX" x="760" y="4393.33">
+		<FB Name="Knickdeichsel_senken" Type="BlinkMarine::io::DI::PKP_2200_LI_IXA" x="760" y="4393.33">
 			<Parameter Name="QI" Value="TRUE"/>
 			<Parameter Name="Input" Value="DigitalInput_Key_3"/>
 			<Attribute Name="GroupName" Type="STRING" Value="funktionen"/>
@@ -146,49 +146,15 @@
 			<Attribute Name="GroupName" Type="STRING" Value="funktionen"/>
 		</SubApp>
 		<EventConnections>
-			<Connection Source="Dom.CNF" Destination="Vorsteuerventil_2A.REQ4" dx1="80" dx2="80" dy="-1853.33">
-				<Attribute Name="Visible" Value="false"/>
-			</Connection>
-			<Connection Source="Seitenschieber.CNF" Destination="Vorsteuerventil_2A.REQ5" dx1="80" dx2="80" dy="-2340">
-				<Attribute Name="Visible" Value="false"/>
-			</Connection>
-			<Connection Source="Abscheider.CNF" Destination="Vorsteuerventil_2B.REQ5" dx1="80" dx2="80" dy="-4000">
-				<Attribute Name="Visible" Value="false"/>
-			</Connection>
 			<Connection Source="Automatik.EO_Automatik_ein" Destination="Schneidwerk.S_ON" dx1="2466.67"/>
 			<Connection Source="Automatik.EO_Automatik_aus_DOWN" Destination="Schneidwerk.S_OFF" dx1="4453.33"/>
 			<Connection Source="Automatik.EO_Automatik_ein_UP" Destination="Heckschieber.OPEN" dx1="2853.33"/>
 			<Connection Source="Automatik.EO_Automatik_aus_DOWN" Destination="Heckschieber.CLOSE" dx1="2620"/>
-			<Connection Source="Heckschieber.CNF_2b" Destination="Vorsteuerventil_2B.REQ4" dx1="80" dx2="80" dy="-1666.67">
-				<Attribute Name="Visible" Value="false"/>
-			</Connection>
 			<Connection Source="Heckschieber.EO_Heckschieber_END" Destination="Automatik.CNF_Schieber" dx1="1386.67" dx2="793.33" dy="-633.33"/>
-			<Connection Source="Automatik.EO_Verteiler_heben" Destination="Verteiler.EI_heben" dx1="1240"/>
-			<Connection Source="Automatik.EO_Verteiler_senken" Destination="Verteiler.EI_senken" dx1="1333.33"/>
-			<Connection Source="Knickdeichsel_heben.IND" Destination="Knickdeichsel.EI_heben" dx1="1226.67"/>
-			<Connection Source="Knickdeichsel_senken.IND" Destination="Knickdeichsel.EI_senken" dx1="406.67"/>
-			<Connection Source="Knickdeichsel.CNF_senken" Destination="Vorsteuerventil_2A.REQ2" dx1="80" dx2="80" dy="-3446.67">
-				<Attribute Name="Visible" Value="false"/>
-			</Connection>
-			<Connection Source="Knickdeichsel.CNF_heben" Destination="Vorsteuerventil_2B.REQ2" dx1="80" dx2="80" dy="-2700">
-				<Attribute Name="Visible" Value="false"/>
-			</Connection>
-			<Connection Source="Klappen.CNF_heben" Destination="Vorsteuerventil_2B.REQ1" dx1="80" dx2="80" dy="-4693.33">
-				<Attribute Name="Visible" Value="false"/>
-			</Connection>
-			<Connection Source="Klappen.CNF_senken" Destination="Vorsteuerventil_2A.REQ1" dx1="80" dx2="80" dy="-5440">
-				<Attribute Name="Visible" Value="false"/>
-			</Connection>
-			<Connection Source="Verteiler.CNF_heben" Destination="Vorsteuerventil_2A.REQ3" dx1="80" dx2="80" dy="-7033.33">
-				<Attribute Name="Visible" Value="false"/>
-			</Connection>
-			<Connection Source="Verteiler.CNF_senken" Destination="Vorsteuerventil_2B.REQ3" dx1="80" dx2="80" dy="-6380">
-				<Attribute Name="Visible" Value="false"/>
-			</Connection>
 			<Connection Source="Seitenschieber_Auf.IND" Destination="Seitenschieber.S"/>
 			<Connection Source="Seitenschieber_Zu.IND" Destination="Seitenschieber.R" dx1="340"/>
 		</EventConnections>
-		<DataConnections>
+		<AdapterConnections>
 			<Connection Source="Dom.OUT" Destination="Vorsteuerventil_2A.IN4" dx1="80" dx2="80" dy="-1746.67">
 				<Attribute Name="Visible" Value="false"/>
 			</Connection>
@@ -223,6 +189,6 @@
 			<Connection Source="Verteiler.OUT_senken" Destination="Vorsteuerventil_2B.IN3" dx1="80" dx2="80" dy="-6226.67">
 				<Attribute Name="Visible" Value="false"/>
 			</Connection>
-		</DataConnections>
+		</AdapterConnections>
 	</SubAppNetwork>
 </SubAppType>

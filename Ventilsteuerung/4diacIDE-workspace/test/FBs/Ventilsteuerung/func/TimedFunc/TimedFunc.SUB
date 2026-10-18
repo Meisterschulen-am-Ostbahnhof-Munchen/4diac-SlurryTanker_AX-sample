@@ -18,34 +18,33 @@
 			<SubAppEvent Name="CLK" Type="Event" Comment="Clock for triggering a output toggle">
 			</SubAppEvent>
 		</SubAppEventInputs>
-		<SubAppEventOutputs>
-			<SubAppEvent Name="CNF" Type="Event">
-				<Attribute Name="YPOSITION" Type="INT" Value="345"/>
-			</SubAppEvent>
-		</SubAppEventOutputs>
 		<InputVars>
 			<VarDeclaration Name="u16ObjId" Type="UINT"/>
 			<VarDeclaration Name="u16ObjIdA" Type="UINT"/>
 			<VarDeclaration Name="Output" Type="DataPanel::io::MI::DQ::DataPanel_MI_DO_S" InitialValue="Invalid"/>
 		</InputVars>
-		<OutputVars>
-			<VarDeclaration Name="OUT" Type="BOOL">
-				<Attribute Name="YPOSITION" Type="INT" Value="18"/>
-			</VarDeclaration>
-		</OutputVars>
+		<Plugs>
+			<AdapterDeclaration Name="OUT" Type="adapter::types::unidirectional::AX"/>
+		</Plugs>
 	</SubAppInterfaceList>
 	<SubAppNetwork>
-		<FB Name="AND_2" Type="iec61131::bitwiseOperators::AND_2" x="4800" y="900">
+		<FB Name="AND_2" Type="adapter::booleanOperators::AX_AND_2" x="6600" y="1000">
 		</FB>
-		<FB Name="QX" Type="DataPanel::io::MI::DQ::DataPanel_MI_QX" x="4800" y="-100">
+		<FB Name="QX" Type="DataPanel::io::MI::DQ::DataPanel_MI_QXA" x="6900" y="-1000">
 			<Parameter Name="QI" Value="TRUE"/>
 		</FB>
-		<FB Name="E_PULSE" Type="iec61499::events::timers::E_PULSE" x="2666.67" y="0">
+		<FB Name="E_PULSE" Type="adapter::events::unidirectional::timers::AX_PULSE" x="3900" y="-300">
 			<Parameter Name="PT" Value="T#3s"/>
 		</FB>
-		<SubApp Name="GreenWhiteBackground" Type="MyLib::sys::GreenWhiteBackground3C" x="2700" y="-1000">
+		<SubApp Name="GreenWhiteBackground" Type="MyLib::sys::GreenWhiteBackground3_AXC" x="2900" y="-1600">
 		</SubApp>
-		<FB Name="E_T_FF_SR" Type="iec61499::events::E_T_FF_SR" x="-260" y="-700">
+		<FB Name="E_T_FF_SR" Type="adapter::events::unidirectional::AX_T_FF_SR" x="-260" y="-700">
+		</FB>
+		<FB Name="AX_SPLIT_3" Type="adapter::events::unidirectional::AX_SPLIT_3" x="900" y="-400">
+		</FB>
+		<FB Name="AX_RF_TRIG" Type="adapter::events::unidirectional::AX_RF_TRIG" x="2800" y="-300">
+		</FB>
+		<FB Name="AX_SPLIT_2" Type="adapter::events::unidirectional::AX_SPLIT_2" x="5000" y="0">
 		</FB>
 		<FB Name="SoftKey" Type="isobus::UT::io::Softkey::Softkey_IE" x="-2300" y="0">
 			<Parameter Name="QI" Value="TRUE"/>
@@ -56,16 +55,13 @@
 			<Parameter Name="InputEvent" Value="AuxDisabled"/>
 		</FB>
 		<EventConnections>
-			<Connection Source="E_PULSE.CNF" Destination="AND_2.REQ" dx1="473.33"/>
-			<Connection Source="E_PULSE.CNF" Destination="QX.REQ" dx1="760"/>
-			<Connection Source="AND_2.CNF" Destination="CNF" dx1="1866.67"/>
-			<Connection Source="E_T_FF_SR.EO" Destination="E_PULSE.REQ" dx1="980"/>
-			<Connection Source="E_T_FF_SR.EO" Destination="GreenWhiteBackground.EO" dx1="1253.33"/>
 			<Connection Source="S" Destination="E_T_FF_SR.S" dx1="2900"/>
 			<Connection Source="R" Destination="E_T_FF_SR.R" dx1="2720"/>
 			<Connection Source="CLK" Destination="E_T_FF_SR.CLK" dx1="2613.33"/>
 			<Connection Source="SoftKey.IND" Destination="E_T_FF_SR.CLK" dx1="480"/>
 			<Connection Source="AuxInput.IND" Destination="E_T_FF_SR.CLK" dx1="673.33"/>
+			<Connection Source="AX_RF_TRIG.ER" Destination="E_PULSE.REQ"/>
+			<Connection Source="AX_RF_TRIG.EF" Destination="E_PULSE.REQ" dx1="166.67"/>
 		</EventConnections>
 		<DataConnections>
 			<Connection Source="Output" Destination="QX.Output" dx1="300">
@@ -77,17 +73,22 @@
 			<Connection Source="u16ObjId" Destination="SoftKey.u16ObjId" dx1="1000">
 				<Attribute Name="Visible" Value="false"/>
 			</Connection>
-			<Connection Source="AND_2.OUT" Destination="OUT" dx1="613.33"/>
 			<Connection Source="u16ObjId" Destination="GreenWhiteBackground.u16ObjId" dx1="2020">
 				<Attribute Name="Visible" Value="false"/>
 			</Connection>
 			<Connection Source="u16ObjIdA" Destination="GreenWhiteBackground.u16ObjIdA" dx1="2020">
 				<Attribute Name="Visible" Value="false"/>
 			</Connection>
-			<Connection Source="E_PULSE.Q" Destination="QX.OUT" dx1="580"/>
-			<Connection Source="E_PULSE.Q" Destination="AND_2.IN1" dx1="366.67"/>
-			<Connection Source="E_T_FF_SR.Q" Destination="AND_2.IN2" dx1="406.67"/>
-			<Connection Source="E_T_FF_SR.Q" Destination="GreenWhiteBackground.DI" dx1="1253.33"/>
 		</DataConnections>
+		<AdapterConnections>
+			<Connection Source="E_T_FF_SR.Q" Destination="AX_SPLIT_3.IN" dx1="100"/>
+			<Connection Source="AX_SPLIT_3.OUT1" Destination="GreenWhiteBackground.DI1" dx1="300"/>
+			<Connection Source="AX_SPLIT_3.OUT3" Destination="AND_2.IN2" dx1="473.33"/>
+			<Connection Source="E_PULSE.Q" Destination="AX_SPLIT_2.IN" dx1="360"/>
+			<Connection Source="AX_SPLIT_2.OUT1" Destination="QX.OUT" dx1="300"/>
+			<Connection Source="AX_SPLIT_2.OUT2" Destination="AND_2.IN1" dx1="300"/>
+			<Connection Source="AND_2.OUT" Destination="OUT" dx1="2106.67"/>
+			<Connection Source="AX_SPLIT_3.OUT2" Destination="AX_RF_TRIG.QI" dx1="906.67"/>
+		</AdapterConnections>
 	</SubAppNetwork>
 </SubAppType>

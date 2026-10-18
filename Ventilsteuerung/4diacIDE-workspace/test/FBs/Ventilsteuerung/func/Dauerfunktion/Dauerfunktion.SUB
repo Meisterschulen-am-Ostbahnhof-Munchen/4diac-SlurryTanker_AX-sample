@@ -18,13 +18,13 @@
 		</InputVars>
 	</SubAppInterfaceList>
 	<SubAppNetwork>
-		<FB Name="E_T_FF" Type="iec61499::events::E_T_FF" x="1600" y="100">
+		<FB Name="E_T_FF" Type="adapter::events::unidirectional::AX_T_FF" x="1600" y="100">
 		</FB>
-		<FB Name="QX" Type="DataPanel::io::MI::DQ::DataPanel_MI_QX" x="4400" y="1000">
+		<FB Name="QX" Type="DataPanel::io::MI::DQ::DataPanel_MI_QXA" x="5200" y="1000">
 			<Parameter Name="QI" Value="TRUE"/>
 			<Parameter Name="Output" Value="DigitalOutput_8A"/>
 		</FB>
-		<SubApp Name="GreenWhiteBackground_Function" Type="MyLib::sys::GreenWhiteBackground3C" x="4800" y="-1100">
+		<SubApp Name="GreenWhiteBackground_Function" Type="MyLib::sys::GreenWhiteBackground3_AXC" x="4800" y="-1100">
 		</SubApp>
 		<FB Name="SoftKey" Type="isobus::UT::io::Softkey::Softkey_IE" x="-600" y="-400">
 			<Parameter Name="QI" Value="TRUE"/>
@@ -36,15 +36,13 @@
 			<Parameter Name="u16ObjId" Value="AuxInput_Licht"/>
 			<Parameter Name="InputEvent" Value="AuxDisabled"/>
 		</FB>
+		<FB Name="AX_SPLIT_2" Type="adapter::events::unidirectional::AX_SPLIT_2" x="2400" y="200">
+		</FB>
 		<EventConnections>
-			<Connection Source="E_T_FF.EO" Destination="QX.REQ" dx1="126.67"/>
-			<Connection Source="E_T_FF.EO" Destination="GreenWhiteBackground_Function.EO" dx1="1113.33"/>
 			<Connection Source="SoftKey.IND" Destination="E_T_FF.CLK" dx1="753.33"/>
 			<Connection Source="AuxInput.IND" Destination="E_T_FF.CLK" dx1="753.33"/>
 		</EventConnections>
 		<DataConnections>
-			<Connection Source="E_T_FF.Q" Destination="QX.OUT" dx1="60"/>
-			<Connection Source="E_T_FF.Q" Destination="GreenWhiteBackground_Function.DI" dx1="1440"/>
 			<Connection Source="u16ObjId" Destination="GreenWhiteBackground_Function.u16ObjId" dx1="2866.67">
 				<Attribute Name="Visible" Value="false"/>
 			</Connection>
@@ -52,5 +50,10 @@
 				<Attribute Name="Visible" Value="false"/>
 			</Connection>
 		</DataConnections>
+		<AdapterConnections>
+			<Connection Source="AX_SPLIT_2.OUT2" Destination="QX.OUT" dx1="60"/>
+			<Connection Source="E_T_FF.Q" Destination="AX_SPLIT_2.IN" dx1="93.33"/>
+			<Connection Source="AX_SPLIT_2.OUT1" Destination="GreenWhiteBackground_Function.DI1" dx1="820"/>
+		</AdapterConnections>
 	</SubAppNetwork>
 </SubAppType>

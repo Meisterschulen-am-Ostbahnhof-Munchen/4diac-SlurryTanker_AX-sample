@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<SubAppType Name="IN_UP" Comment="Subapplication Type" >
+<SubAppType Name="IN_UP" Comment="Subapplication Type">
 	<Identification Standard="61499-2">
 	</Identification>
 	<VersionInfo Version="1.0" Author="franz" Date="2023-02-06">
@@ -17,20 +17,21 @@
 		</InputVars>
 	</SubAppInterfaceList>
 	<SubAppNetwork>
-		<FB Name="E_SWITCH" Type="E_SWITCH" x="1466.67" y="400">
+		<FB Name="E_SWITCH" Type="adapter::events::unidirectional::AX_F_TRIG" x="1466.67" y="400">
 		</FB>
-		<FB Name="IX" Type="BlinkMarine::io::DI::PKP_2200_LI_IX" x="0" y="100">
+		<FB Name="IX" Type="BlinkMarine::io::DI::PKP_2200_LI_IXA" x="-300" y="100">
 			<Parameter Name="QI" Value="TRUE"/>
 		</FB>
 		<EventConnections>
-			<Connection Source="IX.IND" Destination="E_SWITCH.EI" dx1="386.67"/>
-			<Connection Source="E_SWITCH.EO0" Destination="IND" dx1="713.33"/>
+			<Connection Source="E_SWITCH.EO" Destination="IND" dx1="713.33"/>
 		</EventConnections>
 		<DataConnections>
 			<Connection Source="Input" Destination="IX.Input" dx1="300">
 				<Attribute Name="Visible" Value="false"/>
 			</Connection>
-			<Connection Source="IX.IN" Destination="E_SWITCH.G" dx1="546.67"/>
 		</DataConnections>
+		<AdapterConnections>
+			<Connection Source="IX.IN" Destination="E_SWITCH.QI" dx1="546.67"/>
+		</AdapterConnections>
 	</SubAppNetwork>
 </SubAppType>
